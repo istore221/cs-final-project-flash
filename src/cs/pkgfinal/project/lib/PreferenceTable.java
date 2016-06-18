@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Random;
 import java.util.Stack;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -18,6 +19,7 @@ public class PreferenceTable {
   
     private Vector table;
     private Hashtable<String, StudentEntry> studentLookup;
+  
     
     public PreferenceTable(){
         
@@ -52,11 +54,11 @@ public class PreferenceTable {
                     while (tokens.hasMoreTokens()) {
 
                         String token = tokens.nextToken();
-                        rowVector.add(token);
+                        rowVector.addElement(token);
 
 
                     }
-                    vector.add(rowVector);
+                    vector.addElement(rowVector);
             }
            
          
@@ -97,7 +99,7 @@ public class PreferenceTable {
                  
                  if(index >= 2){
                        
-                     studentProjects.add((String) enProjects.nextElement());
+                     studentProjects.addElement((String) enProjects.nextElement());
                      
                  }
                  else{
@@ -159,5 +161,67 @@ public class PreferenceTable {
         
        
     }
+    
+    
+    
+    
+    
+    public StudentEntry getRandomStudent(){
+        
+        Vector<StudentEntry> studentEntities = this.getAllStudentEntries();
+        
+       Random random = new Random();
+       int randomNumber = random.nextInt(((studentEntities.size()-1) - 0) + 1) + 0; // 0 to vector length
+              
+        return studentEntities.get(randomNumber);
+    }
+    
+    public String getRandomPreference(){
+        
+        StudentEntry randomStudentEntry = this.getRandomStudent();
+        
+        return randomStudentEntry.getRandomPreference();
+           
+    }
+    
+    public void fillPreferencesOfAll(int maxPrefs){
+        
+        Vector<StudentEntry> studentEntities = this.getAllStudentEntries();
+        
+          Enumeration en = studentEntities.elements();
+        
+          while(en.hasMoreElements()){ 
+          
+              StudentEntry student = (StudentEntry) en.nextElement();
+             
+              if(!(student.hasPreassignedProject() || student.getOrderedPreferences().size() == 10) ){
+                 
+                    while(!(student.getOrderedPreferences().size()==maxPrefs)){
+                        
+                        String newPreference = this.getRandomPreference();
+                        
+                        if(!student.hasPreference(newPreference)){
+                            
+                            student.addProject(newPreference);
+                        }
+                        
+                        
+                        
+                    }
+                    
+                     
+                 
+              }
+              
+             
+             
+             
+              
+          }
+        
+        
+    }
+            
+            
     
 }

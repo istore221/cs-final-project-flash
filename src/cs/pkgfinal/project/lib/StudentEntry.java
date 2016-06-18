@@ -1,6 +1,8 @@
 
 package cs.pkgfinal.project.lib;
 
+import java.util.Enumeration;
+import java.util.Random;
 import java.util.Vector;
 
 
@@ -10,7 +12,8 @@ public class StudentEntry {
     private boolean preassigned;
     private Vector<String> orderedPreferences; // orderBy most prefered to least prefered
     private int numberOfStatedPreferences;
-    
+  
+      
     public StudentEntry(){
         
        
@@ -68,7 +71,7 @@ public class StudentEntry {
     public void preassignProject(String pname){
         
         this.orderedPreferences.clear();
-        this.orderedPreferences.add(pname);
+        this.orderedPreferences.addElement(pname);
         this.preassigned = true;
        
     }
@@ -76,13 +79,44 @@ public class StudentEntry {
    
     public void addProject(String pname){
         
-        this.orderedPreferences.add(pname);
+        if(!this.hasPreference(pname)){
+            
+             this.orderedPreferences.addElement(pname.intern());
+             
+        }
+       
         
         
     }
     
-    @Override
-    public String toString() {
-	return "Name: "+this.name+" prefereces: "+this.getOrderedPreferences();
+    
+    public String getRandomPreference(){
+        
+           Random random = new Random();
+           int randomNumber = random.nextInt(((this.getOrderedPreferences().size()-1) - 0) + 1) + 0; // 0 to vector length
+        
+            return this.getOrderedPreferences().get(randomNumber);
     }
+    
+    
+    public boolean hasPreference(String preference){
+        
+         Vector<String> prefs =  this.getOrderedPreferences();
+         Enumeration en = prefs.elements();
+        
+          while(en.hasMoreElements()){
+          
+              String pref= (String) en.nextElement();
+              
+               if(pref.equalsIgnoreCase(preference)){
+                   
+                  return true;
+               }
+            }
+         
+         return false;
+        
+    }
+    
+   
 }
