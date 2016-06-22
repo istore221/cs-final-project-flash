@@ -70,6 +70,13 @@ public class CandidateAssignment {
     }
 
   
+    public int getEnergy(){
+        
+      int rank = this.student.getRanking(this.project);
+       
+      return (rank+1)*(rank+1);
+       
+    }
   
    
 

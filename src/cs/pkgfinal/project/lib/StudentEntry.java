@@ -118,5 +118,12 @@ public class StudentEntry {
         
     }
     
+    
+    public int getRanking(String pname){
+        
+       return this.orderedPreferences.indexOf(pname);
+       
+    }
+    
    
 }

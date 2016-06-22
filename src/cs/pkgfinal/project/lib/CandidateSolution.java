@@ -2,8 +2,10 @@
 package cs.pkgfinal.project.lib;
 
 import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Random;
 import java.util.Vector;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /*
  each instance of CandidateSolution represents one possible solution to the project mapping task
@@ -13,10 +15,13 @@ import java.util.Vector;
 public class CandidateSolution {
     
     private Vector<CandidateAssignment> candidateAssignments;
+    private Hashtable<String, Integer> duplicateAssignedProjects;
+    private final int energyPenalty = 1000 ;
   
     public CandidateSolution(){
         
         this.candidateAssignments = new Vector<CandidateAssignment>();
+        this.duplicateAssignedProjects = new Hashtable<String, Integer>();
         
     }
     
@@ -31,11 +36,28 @@ public class CandidateSolution {
           while(en.hasMoreElements()){
               
               StudentEntry student = (StudentEntry) en.nextElement();
-              candidateAssignments.add(new CandidateAssignment(student));
+             CandidateAssignment assignment =  new CandidateAssignment(student);
+              candidateAssignments.add(assignment);
               
           }
           
-         
+           Enumeration enca = this.candidateAssignments.elements();
+          
+           while(enca.hasMoreElements()){
+                 
+                 CandidateAssignment assignment = (CandidateAssignment) enca.nextElement();
+                 int occurrence = this.getAssignedProject(assignment);
+                
+                  if(occurrence > 1){
+                        // put duplicates on hashTable
+                      
+                        this.duplicateAssignedProjects.put(assignment.getProject().intern(), occurrence);
+                    }
+                  
+                  
+            }
+          
+          
         
        }
 
@@ -77,6 +99,64 @@ public class CandidateSolution {
          return this.candidateAssignments.get(randomNumber);
         
     }
+    
+    
+    public int getAssignedProject(CandidateAssignment assignment){
+       
+        
+        Enumeration en = this.candidateAssignments.elements();
+        int occurrence = 0;
+        while(en.hasMoreElements()){ 
+             
+             CandidateAssignment ca = (CandidateAssignment) en.nextElement();
+             if(ca.getProject().equalsIgnoreCase(assignment.getProject())){
+                 
+                 occurrence++;
+             }
+        }
+        
+        
+       
+        
+        
+        
+        return occurrence;
+    }
+    
+    
+     
       
+    public int getEnergy(){
+        
+         Enumeration en = this.candidateAssignments.elements();
+         int energySum = 0; // sum of the energy of each of its candidate assignments
+          int penalties = 0;
+          
+          while(en.hasMoreElements()){ 
+              
+              CandidateAssignment ca = (CandidateAssignment) en.nextElement();
+              
+               energySum+=ca.getEnergy();
+              
+               if(this.duplicateAssignedProjects.get(ca.getProject()) != null){
+                   // assinged more than once
+                    penalties+=this.energyPenalty;
+               }
+          }
+          
+         
+          
+        
+          
+          return energySum+penalties;
+        
+    }
+    
+    
+    public int getFitness(){
+        
+        throw new NotImplementedException();
+        
+    }
     
 }

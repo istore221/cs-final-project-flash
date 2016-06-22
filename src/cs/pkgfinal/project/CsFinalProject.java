@@ -18,24 +18,11 @@ public class CsFinalProject {
            
             
             PreferenceTable prefs = new PreferenceTable("src/project_allocation_data.tsv");
+           CandidateSolution cs = new CandidateSolution(prefs);
            
-            
-            CandidateSolution sol = new CandidateSolution(prefs);
-           
-            //CandidateAssignment cand =  sol.getAssignmentFor("John Constantine");
+             CandidateAssignment ca = cs.getAssignmentFor("Richard B. Riddick");
             
             
-            CandidateAssignment rand = sol.getRandomAssignment();
-          
-            rand.randomizeAssignment();
-            
-            System.out.println(rand.getStudent().getStudentName()+"--->"+rand.getProject());
-            
-            rand.undoChange();
-            
-             System.out.println(rand.getStudent().getStudentName()+"--->"+rand.getProject());
-            
-           
             
         } catch (FileNotFoundException ex) {
             
