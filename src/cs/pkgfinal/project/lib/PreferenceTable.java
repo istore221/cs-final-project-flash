@@ -179,9 +179,17 @@ public class PreferenceTable {
     public String getRandomPreference(){
         
         StudentEntry randomStudentEntry = this.getRandomStudent();
+      
+        if(randomStudentEntry.hasPreassignedProject()){
+            
+            
+            return this.getRandomPreference(); // avoid retuning preassigned projects as much as possible
+        }
         
-        return randomStudentEntry.getRandomPreference();
-           
+       
+       
+       return randomStudentEntry.getRandomPreference();
+       
     }
     
     public void fillPreferencesOfAll(int maxPrefs){
@@ -196,12 +204,14 @@ public class PreferenceTable {
              
               if(!(student.hasPreassignedProject() || student.getOrderedPreferences().size() == 10) ){
                  
+                    // loop until hit the max units
+                  
                     while(!(student.getOrderedPreferences().size()==maxPrefs)){
                         
                         String newPreference = this.getRandomPreference();
-                        
+                       
                         if(!student.hasPreference(newPreference)){
-                            
+                             
                             student.addProject(newPreference);
                         }
                         

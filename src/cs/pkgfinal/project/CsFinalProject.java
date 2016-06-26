@@ -19,9 +19,10 @@ public class CsFinalProject {
             
             PreferenceTable prefs = new PreferenceTable("src/project_allocation_data.tsv");
            CandidateSolution cs = new CandidateSolution(prefs);
-           
-             CandidateAssignment ca = cs.getAssignmentFor("Richard B. Riddick");
+           System.out.println( "Energy -->"+ cs.getEnergy());
+           System.out.println( "Fitness -->"+ cs.getFitness());
             
+         
             
             
         } catch (FileNotFoundException ex) {

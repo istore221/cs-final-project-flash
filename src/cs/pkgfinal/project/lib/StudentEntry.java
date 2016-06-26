@@ -94,7 +94,7 @@ public class StudentEntry {
         
            Random random = new Random();
            int randomNumber = random.nextInt(((this.getOrderedPreferences().size()-1) - 0) + 1) + 0; // 0 to vector length
-        
+          
             return this.getOrderedPreferences().get(randomNumber);
     }
     
