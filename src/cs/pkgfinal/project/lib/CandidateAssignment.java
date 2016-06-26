@@ -1,7 +1,7 @@
 
 package cs.pkgfinal.project.lib;
 
-//mapping from a single student to a single project.
+//mapping from a single student to a single project.(we are trying to avoid assigning project which has already preassigned as much as possible)
 
 import java.util.Random;
 
@@ -17,7 +17,7 @@ public class CandidateAssignment {
     }
     
      public CandidateAssignment(StudentEntry student){
-        
+        // constructor initizlize the student and also randomly assign a project
         this.student = student;
         this.randomizeAssignment();
     }
@@ -54,7 +54,8 @@ public class CandidateAssignment {
     
     
     public void randomizeAssignment(){
-     
+        
+        // randomly assign a project  also track the changes of assignment using previousProject member variable
              
        String randomPref = this.student.getRandomPreference();
        this.previousProject = this.project;
@@ -64,6 +65,7 @@ public class CandidateAssignment {
 
     public void  undoChange(){
         
+        // undo the assignemt
         
         this.project = this.previousProject;
         this.previousProject = null;
@@ -71,6 +73,8 @@ public class CandidateAssignment {
 
   
     public int getEnergy(){
+       
+      // get the ranking (how prefered this project by the student) based on below formula
         
       int rank = this.student.getRanking(this.project);
        

@@ -28,6 +28,8 @@ public class CandidateSolution {
     
       public CandidateSolution(PreferenceTable preferenceTable){
         
+          // create random assignments for each student and put it on the list also try to avoid assigning projects which are already preassigned
+          
         this();
         
         preferenceTable.fillPreferencesOfAll(10); // fill preferences of non preassigned students
@@ -75,12 +77,14 @@ public class CandidateSolution {
           
           
           
+          
         
        }
 
       
       private void purifyAssignments(){
           
+          // try to avoid assigning preassigned projects Randomizly
                   
            Enumeration enca = this.candidateAssignments.elements();
          
@@ -110,7 +114,8 @@ public class CandidateSolution {
       
       
       private boolean hasAlreadyPreAssigned(String project){
-         
+          // check if the given project has preassigned
+          
            Enumeration enca = this.candidateAssignments.elements();
          
            while(enca.hasMoreElements()){
@@ -142,6 +147,7 @@ public class CandidateSolution {
   
       
     public CandidateAssignment getAssignmentFor(String sname){
+        // return the assignemt for given name
         
           Enumeration en = this.candidateAssignments.elements();
         
@@ -170,6 +176,7 @@ public class CandidateSolution {
     
     public int getAssignedProject(CandidateAssignment assignment){
        
+        // return the occurence of the project on current solution list
         
         Enumeration en = this.candidateAssignments.elements();
         int occurrence = 0;
@@ -193,27 +200,29 @@ public class CandidateSolution {
     
    
      public int getPenalties(){
-        
-         Enumeration en = this.candidateAssignments.elements();
+        // return the panalties by refering duplicatehashtable and increment by panelty value for every repeat
+         
+         /*
+          * Every time there is a collision i.e., two students are assigned the same project, add 1000 for the penalty. So if there are two collisions 2000, three collisions 3000 etc.
+          */
+       
           int penalties = 0;
           
-           while(en.hasMoreElements()){ 
-               
-                 CandidateAssignment ca = (CandidateAssignment) en.nextElement();
-                 
-                 if(this.duplicateAssignedProjects.get(ca.getProject()) != null){
-                   // assinged more than once
-                    penalties+=this.energyPenalty;
-               }
-                 
-           }
+          for (String key : this.duplicateAssignedProjects.keySet()){
+              
+              // why -1 because in my hash table occurences(value) = 2 means project X has two occurences on candidateAssignment list (two students share project X) so (2-1) * 1000 = 1000 
+              penalties+= (this.duplicateAssignedProjects.get(key)-1) * 1000;
+              
+          }
+         
+        
           
-          
+        
         return penalties;
     }
       
     public int getEnergy(){
-        //higher the energy then the lower the fitness of a solution. (E + P)
+        //higher the energy then the lower the fitness of a solution. 
          Enumeration en = this.candidateAssignments.elements();
          int energySum = 0; // sum of the energy of each of its candidate assignments
          
@@ -237,14 +246,22 @@ public class CandidateSolution {
     
     
     public int getFitness(){
-        //higher the fitness then the lower the energy of a solution. inverse of (E + P)  --->  (P - E)
-      
-       int penalties = this.getPenalties();
-       int energy = this.getEnergy()-penalties;
-     
-       return penalties - energy;
+        //higher the fitness then the lower the energy of a solution.
+        // measures how good the solution  is ( want something that gives low values for bad data and high values for good data)
+        //something used in Genetic Algorithm. It is used in each iteration of the algorithm to evaluate the quality of all the proposed solutions to your problem in the current population. 
+        
+       return this.getEnergy() * -1;
        
         
+        
+    }
+    
+    
+    public boolean isValid(){
+        
+        // if student get only one project from their expreessed preferences while the same project has not assigned other students its valid
+        
+         throw new NotImplementedException();
         
     }
     

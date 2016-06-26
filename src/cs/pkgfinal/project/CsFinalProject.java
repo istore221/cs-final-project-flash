@@ -18,9 +18,10 @@ public class CsFinalProject {
            
             
             PreferenceTable prefs = new PreferenceTable("src/project_allocation_data.tsv");
-           CandidateSolution cs = new CandidateSolution(prefs);
-           System.out.println( "Energy -->"+ cs.getEnergy());
-           System.out.println( "Fitness -->"+ cs.getFitness());
+           CandidateSolution cs1 = new CandidateSolution(prefs);
+           
+           System.out.println("cs1 -->"+cs1.getEnergy());
+        
             
          
             

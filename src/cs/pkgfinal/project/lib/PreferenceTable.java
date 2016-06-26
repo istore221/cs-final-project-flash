@@ -14,6 +14,8 @@ import java.util.Stack;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+// read the given file an convert it to classs objects using stringtokenizer which is tab as delemeter 
+
 public class PreferenceTable {
         
   
@@ -23,13 +25,14 @@ public class PreferenceTable {
     
     public PreferenceTable(){
         
+        // constructor initialze the hashtables
        this.table = new Vector();
        this.studentLookup = new Hashtable<String, StudentEntry>();
        
     }
     
     public PreferenceTable(String filePath) throws FileNotFoundException, IOException{
-         
+         // parameterized constructor which load the file and read into memory
         this();
         this.loadContentFromFile(filePath);
         
@@ -38,7 +41,8 @@ public class PreferenceTable {
     
     private void loadContentFromFile(String filePath) throws FileNotFoundException, IOException{
         
-     
+     // read the file to memory and use tab as a delimeter to break down the strings using string tokanizer . each row represent by a vector and entire sheet represent by a vector of vectors (raw)
+        
       BufferedReader br  = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filePath))));;
         String  row = null;
         int rowNo = 0;
@@ -71,6 +75,7 @@ public class PreferenceTable {
         this.table = vector;
         
        
+        /* convert vector to a hash table */
         /* ----------------------Hash table conversion------------------------------ */
         
        
@@ -126,7 +131,8 @@ public class PreferenceTable {
     }
     
     public void printVector(){
-            
+         
+       //print the vector to screen
       Enumeration en = this.table.elements();
       
       while(en.hasMoreElements()){
@@ -139,6 +145,8 @@ public class PreferenceTable {
     
     public Vector<StudentEntry> getAllStudentEntries(){
            
+        // return all the students
+        
         Vector<StudentEntry> studentEntities = new Vector<StudentEntry>();
          
        for(String key : this.studentLookup.keySet()) {
@@ -152,6 +160,7 @@ public class PreferenceTable {
     
     public StudentEntry getEntryFor(String sname){
           
+        // get studentEnrity for given name
        
         try {
             return this.studentLookup.get(sname);
@@ -167,7 +176,7 @@ public class PreferenceTable {
     
     
     public StudentEntry getRandomStudent(){
-        
+        //return random student object
         Vector<StudentEntry> studentEntities = this.getAllStudentEntries();
         
        Random random = new Random();
@@ -177,7 +186,7 @@ public class PreferenceTable {
     }
     
     public String getRandomPreference(){
-        
+        //get random preferences by obtaining a random student (we do not get preferences from preassigned student objects) and genarate a random preferences from their list
         StudentEntry randomStudentEntry = this.getRandomStudent();
       
         if(randomStudentEntry.hasPreassignedProject()){
@@ -193,6 +202,7 @@ public class PreferenceTable {
     }
     
     public void fillPreferencesOfAll(int maxPrefs){
+        // based on the max preferences given fill up remaining preferences to reach the max we also avoid preassigned student's here 
         
         Vector<StudentEntry> studentEntities = this.getAllStudentEntries();
         

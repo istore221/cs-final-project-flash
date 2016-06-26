@@ -5,6 +5,11 @@ import java.util.Enumeration;
 import java.util.Random;
 import java.util.Vector;
 
+/*
+ 
+Hold student object along with list of preferences (order by most prefered to least prefered)  which is given by the user
+ 
+ */
 
 public class StudentEntry {
     
@@ -16,13 +21,13 @@ public class StudentEntry {
       
     public StudentEntry(){
         
-       
+       //constructor 
         this.orderedPreferences = new Vector<String>();
         
     }
     
     public StudentEntry(String name){
-        
+         // parameterized constructor
         this();
         this.name = name;
         
@@ -56,7 +61,7 @@ public class StudentEntry {
     }
     
     public void setOrderedPreferences(Vector<String> vector) {
-            
+         // set initial preferences on the given file
         this.orderedPreferences = vector;
         this.numberOfStatedPreferences = vector.size();
 		
@@ -69,7 +74,7 @@ public class StudentEntry {
   
    
     public void preassignProject(String pname){
-        
+        // explicitly preassign project for a student
         this.orderedPreferences.clear();
         this.orderedPreferences.addElement(pname);
         this.preassigned = true;
@@ -78,7 +83,7 @@ public class StudentEntry {
     
    
     public void addProject(String pname){
-        
+        // add project to the preferences list if not exisit 
         if(!this.hasPreference(pname)){
             
              this.orderedPreferences.addElement(pname.intern());
@@ -91,7 +96,7 @@ public class StudentEntry {
     
     
     public String getRandomPreference(){
-        
+            // return a random preference from exisiting preferences list
            Random random = new Random();
            int randomNumber = random.nextInt(((this.getOrderedPreferences().size()-1) - 0) + 1) + 0; // 0 to vector length
           
@@ -100,7 +105,7 @@ public class StudentEntry {
     
     
     public boolean hasPreference(String preference){
-        
+        // check if preference is already exisit on current list
          Vector<String> prefs =  this.getOrderedPreferences();
          Enumeration en = prefs.elements();
         
@@ -120,7 +125,7 @@ public class StudentEntry {
     
     
     public int getRanking(String pname){
-        
+        // return the rank of the preference (index of the array) less is better
        return this.orderedPreferences.indexOf(pname);
        
     }
