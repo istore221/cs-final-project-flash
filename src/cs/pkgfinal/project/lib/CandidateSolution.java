@@ -261,7 +261,7 @@ public class CandidateSolution {
         
         // if student get only one project from their expreessed preferences while the same project has not assigned other students its valid
         
-         throw new NotImplementedException();
+         return !(this.duplicateAssignedProjects.size() > 0);
         
     }
     
