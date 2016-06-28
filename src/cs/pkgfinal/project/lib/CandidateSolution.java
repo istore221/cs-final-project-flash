@@ -12,12 +12,13 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
     This class will later used for both our Simulated Annealing and Gene-c
     Algorithm solutions
 */
-public class CandidateSolution {
+public class CandidateSolution implements Comparable<CandidateSolution>{
     
+     private PreferenceTable preferenceTable;
     private Vector<CandidateAssignment> candidateAssignments;
     private Hashtable<String, Integer> duplicateAssignedProjects;
     private final int energyPenalty = 1000 ;
-  
+   
   
     public CandidateSolution(){
         
@@ -31,9 +32,34 @@ public class CandidateSolution {
           // create random assignments for each student and put it on the list also try to avoid assigning projects which are already preassigned
           
         this();
+        this.preferenceTable = preferenceTable;
+        this.preferenceTable.fillPreferencesOfAll(10); // fill preferences of non preassigned students
+      
+          this.mapStudents();
+          
+          this.purifyAssignments(); // check assignments are already preassigned and if it is recursively assign non preassigned project
+          
+          
+          this.putRepeatedOnHash();
+           
+          
+          
         
-        preferenceTable.fillPreferencesOfAll(10); // fill preferences of non preassigned students
-        Vector<StudentEntry> studentEntities =  preferenceTable.getAllStudentEntries();
+       }
+      
+       public PreferenceTable getPreferenceTable() {
+        return preferenceTable;
+    }
+
+   
+    public void setPreferenceTable(PreferenceTable preferenceTable) {
+        this.preferenceTable = preferenceTable;
+    }
+
+      
+     public void mapStudents(){
+         
+        Vector<StudentEntry> studentEntities =  this.getPreferenceTable().getAllStudentEntries();
         Enumeration en = studentEntities.elements();
         
           while(en.hasMoreElements()){
@@ -48,11 +74,12 @@ public class CandidateSolution {
             
             
           }
-          
-          this.purifyAssignments(); // check assignments are already preassigned and if it is recursively assign non preassigned project
-          
-          
-          // put repeated projects on hashtable
+         
+     }
+      
+     public void putRepeatedOnHash(){
+         
+            // put repeated projects on hashtable
           
            Enumeration enca = this.candidateAssignments.elements();
           
@@ -73,14 +100,7 @@ public class CandidateSolution {
                   
                   
             }
-           
-          
-          
-          
-          
-        
-       }
-
+     }
       
       private void purifyAssignments(){
           
@@ -144,7 +164,7 @@ public class CandidateSolution {
     }
 
    
-  
+   
       
     public CandidateAssignment getAssignmentFor(String sname){
         // return the assignemt for given name
@@ -264,5 +284,18 @@ public class CandidateSolution {
          return !(this.duplicateAssignedProjects.size() > 0);
         
     }
+
+    @Override
+    public int compareTo(CandidateSolution o) {
+       
+          if(this.getFitness() == o.getFitness())
+                         return 0;
+                    return this.getFitness() > o.getFitness() ? -1 : 1;
+    }
+
+   
+   
+
+   
     
 }

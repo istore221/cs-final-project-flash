@@ -77,6 +77,7 @@ public class SimulatedAnnealing {
           CandidateSolution currentSolution = new CandidateSolution(this.preferenceTable);
           
          
+         
           double T  = 1.0;
           double  T_min = 0.00001;
           double A = 0.9;
@@ -86,7 +87,7 @@ public class SimulatedAnnealing {
             for(int i=0;i<this.iterations;i++){
 
               CandidateSolution candidateSolution =   new CandidateSolution(this.preferenceTable);
-
+              
               if( candidateSolution.getEnergy() < currentSolution.getEnergy()){
 
                   currentSolution = candidateSolution;

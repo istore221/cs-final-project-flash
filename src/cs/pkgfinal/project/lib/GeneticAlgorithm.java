@@ -1,6 +1,14 @@
 
 package cs.pkgfinal.project.lib;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Vector;
+
 /*http://www.theprojectspot.com/tutorial-post/creating-a-genetic-algorithm-for-beginners/3
  * http://geneticalgorithms.ai-depot.com/Tutorial/Overview.html
  * GeneticAlgorithm genarate the search space (colection of CandidateSolutions) to get the most disired solution based on the fitness function of CandidateSolution object
@@ -18,29 +26,125 @@ package cs.pkgfinal.project.lib;
 
 public class GeneticAlgorithm {
     
-     private int population = 0;
-     
-     
+     private long initialPopulation = 0; 
+     private long generations = 0;
+     private PreferenceTable preferenceTable;
+     private List<CandidateSolution> newPopulation;
+             
      public GeneticAlgorithm(){
          
          
      }
      
-     public GeneticAlgorithm(int population){
-         
-            this.population = population;
-         
+     public GeneticAlgorithm(PreferenceTable preferenceTable,long InitialPopulation,long generations){
+            this();
+            this.initialPopulation = InitialPopulation;
+            this.preferenceTable = preferenceTable;
+            this.newPopulation = new ArrayList<CandidateSolution>();
+            this.generations = generations;
+            
+            
      }
 
+  
+    public long getInitialPopulation() {
+        return initialPopulation;
+    }
+
+   
+    public void setInitialPopulation(long initialPopulation) {
+        this.initialPopulation = initialPopulation;
+    }
+
     
-    public int getPopulation() {
-        return population;
+    public PreferenceTable getPreferenceTable() {
+        return preferenceTable;
+    }
+
+   
+    public void setPreferenceTable(PreferenceTable preferenceTable) {
+        this.preferenceTable = preferenceTable;
+    }
+
+    
+    public CandidateSolution populate(){
+            
+          for(int i=0;i<this.initialPopulation;i++){
+              
+              CandidateSolution candidateSolution = new CandidateSolution(this.preferenceTable);
+             
+               newPopulation.add(candidateSolution);
+               
+          }
+          
+         Collections.sort(newPopulation); // sort by fitness best fitness to worst fitness
+         
+         if ((this.initialPopulation & 1) != 0) {
+                
+             // odd number of parents so remove the parent with smallerst fitness value
+             this.newPopulation.remove( this.newPopulation.size() - 1);
+         }
+         
+         
+       
+         
+         CandidateSolution c1 =  newPopulation.get(0);
+         CandidateSolution c2 = newPopulation.get(1);
+          
+         int crossOverPoint = c1.getCandidateAssignments().size() / 2;
+         
+        
+         
+         /* C1 Fucks C2 */
+         CandidateSolution newC1 = new CandidateSolution();
+         
+           for (CandidateAssignment assignment: c1.getCandidateAssignments().subList(0, crossOverPoint)) {
+               
+               newC1.getCandidateAssignments().add(assignment);
+               
+               
+           }
+            for (CandidateAssignment assignment: c2.getCandidateAssignments().subList(crossOverPoint, 51)) {
+               
+               newC1.getCandidateAssignments().add(assignment);
+               
+               
+           }
+           
+            newC1.putRepeatedOnHash();
+          
+            /* C1 Fucks C2 */
+            
+            
+            
+            /* C2 Fucks C1 */
+         CandidateSolution newC2 = new CandidateSolution();
+         
+           for (CandidateAssignment assignment: c1.getCandidateAssignments().subList(crossOverPoint, 51)) {
+               
+               newC2.getCandidateAssignments().add(assignment);
+               
+               
+           }
+            for (CandidateAssignment assignment: c2.getCandidateAssignments().subList(0, crossOverPoint)) {
+               
+               newC2.getCandidateAssignments().add(assignment);
+               
+               
+           }
+           
+            newC2.putRepeatedOnHash();
+          
+            /* C2 Fucks C1 */
+            
+           
+         
+ 
+         
+        return null;
     }
 
   
-    public void setPopulation(int population) {
-        this.population = population;
-    }
 
     
      
