@@ -1,10 +1,6 @@
 
 package cs.pkgfinal.project.lib;
 
-
-
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 /*
 
 SimulatedAnnealing class resposnible for genarating and compiring randmdom solution objects up to given iteration value ex : iterations = 10 algortham repeats for 10 times.this is how it works
