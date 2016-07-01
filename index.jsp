@@ -16,39 +16,40 @@
 </head>
 <body>
 
-    <div style="margin-top: 5px;">
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#"><font size="5" color="#08298A" face="Agency FB"><b>Project Allocation to Students</b></font></a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <!-- <li><a href="#">Link</a></li> -->
-                    </ul>
-                </div>
+<div style="margin-top: 5px;">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><font size="5" color="#08298A" face="Agency FB"><b>Project Allocation to Students</b></font></a>
             </div>
-        </nav>
-    </div>
 
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <!-- <li><a href="#">Link</a></li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="container">
     <center>
-        <div style="width: 60%;">
+        <div style="width: 80%;">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <form>
-                        <input type="file" class="filestyle" data-buttonname="btn-primary" id="fileUp">
+                    <form enctype="multipart/form-data" id="fileUploadForm">
+                        <input type="file" class="filestyle" data-buttonname="btn-primary" id="fileUp" name="fileUp">
                         <br />
                         <div class="row">
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" id="no_OfProjects" placeholder="Number Of Preferences For One Student">
+                                <input type="text" class="form-control" id="no_OfProjects" placeholder="Number Of Preferences For One Student" name="no_OfProjects">
                             </div>
                             <div class="col-md-3">
                                 <button type="button" class="btn btn-primary" style="width: 100%;" id="btnUpload">Upload File & Continue</button>
@@ -126,6 +127,65 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><b><font size="4" color="#08298A" face="Agency FB">Result - Simulated Annealing</font></b></h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover" id="ResultingTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Student Name</th>
+                                <th>Preferences</th>
+                                <th>Current Project</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>1. A <br />2. B <br />3. C <br />4. D</td>
+                                <td>D</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>1. A <br />2. B <br />3. C <br />4. D</td>
+                                <td>D</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>1. A <br />2. B <br />3. C <br />4. D</td>
+                                <td>D</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><b><font size="4" color="#08298A" face="Agency FB">Summary - Simulated Annealing</font></b></h3>
+                </div>
+                <div class="panel-body">
+                    <b>Weight : </b><hr />
+                    <b>Time taken to run : </b><hr />
+                    <b>Validity : </b><hr />
+
+                    <iframe id="txtArea1" style="display:none"></iframe>
+                    <button type="button" class="btn btn-success btn-lg btn-block" onclick="fnExcelReport();">Export To Excel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
 
@@ -210,9 +270,22 @@
             var ext = $('#fileUp').val().split('.').pop().toLowerCase();
             if ($.inArray(ext, ['tsv']) == -1) {
                 alert('Invalid File Format Need .tsv Format!');
-            } else {
-                document.getElementById("options_sa").disabled = false;
-                document.getElementById("options_ga").disabled = false;
+            } 
+            else {
+
+                $.ajax({
+                    type: "POST",
+                    url: "result.jsp",
+                    data: new FormData($("#fileUploadForm")[0]),
+                    success: function (data) {
+                        alert(data.trim());
+                        document.getElementById("options_sa").disabled = false;
+                        document.getElementById("options_ga").disabled = false;
+                    },
+                    contentType: false,
+                    processData: false
+                });
+                
             }
         }
     });
@@ -270,4 +343,35 @@
             });
 
     $(":file").filestyle({ buttonName: "btn-info" });
+
+    function fnExcelReport() {
+        var tab_text = "<table border='2px'><tr bgcolor='#87AFC6'>";
+        var textRange; var j = 0;
+        tab = document.getElementById('ResultingTable'); // id of table
+
+        for (j = 0 ; j < tab.rows.length ; j++) {
+            tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
+        }
+
+        tab_text = tab_text + "</table>";
+        tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+        tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open("txt/html", "replace");
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus();
+            sa = txtArea1.document.execCommand("SaveAs", true, "download.xls");
+        }
+        else                 //other browser not tested on IE 11
+            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+
+        return (sa);
+    }
 </script>
