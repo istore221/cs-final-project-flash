@@ -1,6 +1,7 @@
 
 package cs.pkgfinal.project.lib;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -43,7 +44,7 @@ public class GeneticAlgorithm {
             this.newPopulation = new ArrayList<CandidateSolution>();
             this.generations = generations;
             
-            
+          
      }
 
   
@@ -77,25 +78,39 @@ public class GeneticAlgorithm {
                
           }
           
+         int crossOverPoint = (newPopulation.get(0).getCandidateAssignments().size() / 2);
+       
+          
+         for(int g=0;g<this.generations;g++){
+           
+                     
+          
          Collections.sort(newPopulation); // sort by fitness best fitness to worst fitness
          
-         if ((this.initialPopulation & 1) != 0) {
+         if ((this.newPopulation.size() & 1) != 0) {
                 
              // odd number of parents so remove the parent with smallerst fitness value
              this.newPopulation.remove( this.newPopulation.size() - 1);
          }
          
-         
-       
-         
-         CandidateSolution c1 =  newPopulation.get(0);
-         CandidateSolution c2 = newPopulation.get(1);
-          
-         int crossOverPoint = c1.getCandidateAssignments().size() / 2;
-         
         
+         int end = 0;
          
-         /* C1 Fucks C2 */
+         
+          List<CandidateSolution> tempNewPopulation = new ArrayList<CandidateSolution>();
+      
+      
+         for(int i=0;i<this.newPopulation.size() / 2;i++){
+             
+             int parentA  = end;
+             int parentB = end+1;
+             
+             CandidateSolution c1 =  newPopulation.get(parentA);
+             CandidateSolution c2 = newPopulation.get(parentB);
+         
+          
+             
+         /* C1 crossover  C2 */
          CandidateSolution newC1 = new CandidateSolution();
          
            for (CandidateAssignment assignment: c1.getCandidateAssignments().subList(0, crossOverPoint)) {
@@ -104,7 +119,7 @@ public class GeneticAlgorithm {
                
                
            }
-            for (CandidateAssignment assignment: c2.getCandidateAssignments().subList(crossOverPoint, 51)) {
+            for (CandidateAssignment assignment: c2.getCandidateAssignments().subList(crossOverPoint, c1.getCandidateAssignments().size())) {
                
                newC1.getCandidateAssignments().add(assignment);
                
@@ -113,14 +128,14 @@ public class GeneticAlgorithm {
            
             newC1.putRepeatedOnHash();
           
-            /* C1 Fucks C2 */
+            /* C1 crossover  C2 */
+           
+             
             
-            
-            
-            /* C2 Fucks C1 */
+         /* C2 Crossover C1 */
          CandidateSolution newC2 = new CandidateSolution();
          
-           for (CandidateAssignment assignment: c1.getCandidateAssignments().subList(crossOverPoint, 51)) {
+           for (CandidateAssignment assignment: c1.getCandidateAssignments().subList(crossOverPoint, c1.getCandidateAssignments().size())) {
                
                newC2.getCandidateAssignments().add(assignment);
                
@@ -135,13 +150,27 @@ public class GeneticAlgorithm {
            
             newC2.putRepeatedOnHash();
           
-            /* C2 Fucks C1 */
+           /* C2 Crossover C1 */
             
+            tempNewPopulation.add(c1);
+            tempNewPopulation.add(c2);
+            
+                   
+             end = (parentB)+1;
+             
+             
+             
+         }
+       
+         
+         this.newPopulation.clear();
+         this.newPopulation = tempNewPopulation;
+      
+         }
+         
+      
            
-         
- 
-         
-        return null;
+        return this.newPopulation.get(0); // return the best solution with minimum fitness
     }
 
   
