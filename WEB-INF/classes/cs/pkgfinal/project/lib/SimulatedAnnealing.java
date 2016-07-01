@@ -68,9 +68,9 @@ public class SimulatedAnnealing {
     
     
     
-      public CandidateSolution anneal(){
+      public CandidateSolution anneal(int noOfPrefs){
           
-          CandidateSolution currentSolution = new CandidateSolution(this.preferenceTable);
+          CandidateSolution currentSolution = new CandidateSolution(this.preferenceTable, noOfPrefs);
           
          
          
@@ -82,7 +82,7 @@ public class SimulatedAnnealing {
                
             for(int i=0;i<this.iterations;i++){
 
-              CandidateSolution candidateSolution =   new CandidateSolution(this.preferenceTable);
+              CandidateSolution candidateSolution =   new CandidateSolution(this.preferenceTable, noOfPrefs);
               
               if( candidateSolution.getEnergy() < currentSolution.getEnergy()){
 

@@ -26,13 +26,13 @@ public class CandidateSolution implements Comparable<CandidateSolution>{
         
     }
     
-      public CandidateSolution(PreferenceTable preferenceTable){
+      public CandidateSolution(PreferenceTable preferenceTable, int noOfPrefs){
         
           // create random assignments for each student and put it on the list also try to avoid assigning projects which are already preassigned
           
         this();
         this.preferenceTable = preferenceTable;
-        this.preferenceTable.fillPreferencesOfAll(10); // fill preferences of non preassigned students
+        this.preferenceTable.fillPreferencesOfAll(noOfPrefs); // fill preferences of non preassigned students
       
           this.mapStudents();
           

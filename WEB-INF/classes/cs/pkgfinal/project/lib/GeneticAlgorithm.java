@@ -67,11 +67,11 @@ public class GeneticAlgorithm {
     }
 
     
-    public CandidateSolution populate(){
+    public CandidateSolution populate(int noOfPrefs){
             
           for(int i=0;i<this.initialPopulation;i++){
               
-              CandidateSolution candidateSolution = new CandidateSolution(this.preferenceTable);
+              CandidateSolution candidateSolution = new CandidateSolution(this.preferenceTable, noOfPrefs);
              
                newPopulation.add(candidateSolution);
                
