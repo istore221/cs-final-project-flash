@@ -89,6 +89,14 @@
     </div>
 
     <div class="row">
+        <center>
+            <img id="LoadingGif" src="Content/img/loader02.gif" style="display: none"></img>
+        </center>
+    </div>
+
+    <br />
+
+    <div class="row">
         <div class="col-md-6">
             <div class="panel panel-info" style="margin-left: 5px;">
                 <div class="panel-heading">
@@ -99,9 +107,7 @@
                         <div class="form-group">
                             <input type="text" class="form-control" id="sa_no_OfTime" placeholder="Number Of Times Algorithm Should Run ">
                         </div>
-                        <button type="button" class="btn btn-primary" style="width: 100%;" id="btnSA">Calculate</button>
-                        <br/><br/>
-                        <button type="button" class="btn btn-success" style="width: 100%;" id="btnDwnSA">Download Excel</button>
+                        <button type="button" class="btn btn-primary" style="width: 100%;" id="btnSA" data-loading-text="Calculating..." autocomplete="off">Calculate</button>
                     </form>
                 </div>
             </div>
@@ -120,12 +126,27 @@
                             <input type="text" class="form-control" id="ga_no_OfGen" placeholder="Number Of Genarations">
                         </div>
                         <button type="button" class="btn btn-primary" style="width: 100%;" id="btnGA">Calculate</button>
-                        <br/><br/>
-                        <button type="button" class="btn btn-success" style="width: 100%;" id="btnDwnGA">Download Excel</button>
                     </form>
                 </div>
             </div>
         </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <center>
+            <div class="panel panel-success" style="width: 50%;">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><b><font size="4" color="#08298A" face="Agency FB">Summary - Simulated Annealing</font></b></h3>
+                </div>
+                <div class="panel-body">
+                    <span id="summarydata"></span><br /><br />
+                    <button type="button" class="btn btn-success btn-lg btn-block" onclick="fnExcelReport();">Export To Excel</button>
+                </div>
+                <iframe id="txtArea1" style="display:none"></iframe>
+            </div>
+        </center>
     </div>
 
     <div class="row">
@@ -138,54 +159,20 @@
                     <table class="table table-hover" id="ResultingTable">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Student Name</th>
-                                <th>Preferences</th>
-                                <th>Current Project</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>1. A <br />2. B <br />3. C <br />4. D</td>
-                                <td>D</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>1. A <br />2. B <br />3. C <br />4. D</td>
-                                <td>D</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>1. A <br />2. B <br />3. C <br />4. D</td>
-                                <td>D</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-6">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><b><font size="4" color="#08298A" face="Agency FB">Summary - Simulated Annealing</font></b></h3>
-                </div>
-                <div class="panel-body">
-                    <b>Weight : </b><hr />
-                    <b>Time taken to run : </b><hr />
-                    <b>Validity : </b><hr />
-
-                    <iframe id="txtArea1" style="display:none"></iframe>
-                    <button type="button" class="btn btn-success btn-lg btn-block" onclick="fnExcelReport();">Export To Excel</button>
-                </div>
-            </div>
-        </div>
     </div>
+
 </div>
+
+
+
 </body>
 </html>
 
@@ -199,8 +186,6 @@
         document.getElementById("btnSA").disabled = true;
         document.getElementById("ga_no_OfTime").disabled = true;
         document.getElementById("btnGA").disabled = true;
-        document.getElementById("btnDwnSA").disabled = true;
-        document.getElementById("btnDwnGA").disabled = true;
         document.getElementById("ga_no_OfGen").disabled = true;
 
         //Numbers Only
@@ -229,35 +214,6 @@
         });
     });
 
-    //Only two Numbers
-    var max_chars = 2;
-    $("#no_OfProjects").keyup(function (e) {
-        if ($(this).val().length >= max_chars) {
-            $(this).val($(this).val().substr(0, max_chars));
-        }
-    });
-
-    var max_charsSA = 3;
-    $("#sa_no_OfTime").keyup(function (e) {
-        if ($(this).val().length >= max_charsSA) {
-            $(this).val($(this).val().substr(0, max_charsSA));
-        }
-    });
-
-    var max_charsGA = 3;
-    $("#ga_no_OfTime").keyup(function (e) {
-        if ($(this).val().length >= max_charsGA) {
-            $(this).val($(this).val().substr(0, max_charsGA));
-        }
-    });
-
-    var max_charsGAgen = 3;
-    $("#ga_no_OfGen").keyup(function (e) {
-        if ($(this).val().length >= max_charsGAgen) {
-            $(this).val($(this).val().substr(0, max_charsGAgen));
-        }
-    });
-
     $('#btnUpload').click(function () {
         var fileVal = $('#fileUp').val();
         var noProjects = $('#no_OfProjects').val();
@@ -278,7 +234,6 @@
                     url: "result.jsp",
                     data: new FormData($("#fileUploadForm")[0]),
                     success: function (data) {
-                        alert(data.trim());
                         document.getElementById("options_sa").disabled = false;
                         document.getElementById("options_ga").disabled = false;
                     },
@@ -288,6 +243,57 @@
                 
             }
         }
+    });
+
+    $("#btnSA").click(function() {
+        $(this).button('loading');
+        $('#LoadingGif').show();
+        $('#summarydata').html('');
+        $('#ResultingTable thead tr').html('');
+        $('#ResultingTable tbody').html('');
+
+        $.ajax({
+            type: "POST",
+            url: "result.jsp",
+            data: {
+                funcname: 'SA',
+                iterations: $('#sa_no_OfTime').val(),
+                no_OfProjects: $('#no_OfProjects').val()
+            },
+            success: function (data) {
+                var jsonobj = JSON.parse(data);
+
+                for (var i = 0; i < jsonobj.summary.length; i++){
+                    $('#summarydata').append('<b>' + jsonobj.summary[i].title + ' :</b> ' + jsonobj.summary[i].value + '<hr />');
+                }
+                $('#summarydata').append('<small><b>Projects which are conflicting with another is highlighted in red.</b></small>');
+
+                for (var i = 0; i < jsonobj.tableheaders.length; i++){
+                    $('#ResultingTable thead tr').append('<th>' + jsonobj.tableheaders[i].tableheader + '</th>');
+                }
+
+                for (var i = 0; i < jsonobj.tabledata.length; i++){
+                    var tData = '<tr ' + (jsonobj.tabledata[i].col5 ? 'class="danger"' : '') + '>';
+
+                    tData += '<th scope="row">' + jsonobj.tabledata[i].col1 + '</th>';
+
+                    tData += '<td>' + jsonobj.tabledata[i].col2 + '</td>';
+                    
+                    tData += '<td>';
+                    for (var j = 0; j < jsonobj.tabledata[i].col3.length; j++){
+                        tData += (jsonobj.tabledata[i].col3[j].pref + '<br />');
+                    }
+                    tData += '</td>';
+
+                    tData += '<td>' + jsonobj.tabledata[i].col4 + '</td>';
+                    tData += '</tr>'
+
+                    $('#ResultingTable tbody').append(tData);
+                }
+                $("#btnSA").button('reset');
+                $('#LoadingGif').hide();
+            }
+        });
     });
 
     $('#btnRemove').click(function () {
@@ -304,43 +310,40 @@
         document.getElementById("btnSA").disabled = true;
         document.getElementById("ga_no_OfTime").disabled = true;
         document.getElementById("btnGA").disabled = true;
-        document.getElementById("btnDwnSA").disabled = true;
-        document.getElementById("btnDwnGA").disabled = true;
         document.getElementById("ga_no_OfGen").disabled = true;
 
         $('#options_sa').prop('checked', false);
         $('#options_ga').prop('checked', false);
+
+        $('#summarydata').html('');
+        $('#ResultingTable thead tr').html('');
+        $('#ResultingTable tbody').html('');
     });
 
-    $('input:radio[name="optionsRadios"]').change(
-            function () {
-                if ($(this).is(':checked') && $(this).val() == 'options_sa') {
-                    document.getElementById("sa_no_OfTime").disabled = false;
-                    document.getElementById("btnSA").disabled = false;
-                    document.getElementById("btnDwnSA").disabled = false;
+    $('input:radio[name="optionsRadios"]').change(function () {
+        if ($(this).is(':checked') && $(this).val() == 'options_sa') {
+            document.getElementById("sa_no_OfTime").disabled = false;
+            document.getElementById("btnSA").disabled = false;
 
-                    document.getElementById("ga_no_OfTime").disabled = true;
-                    document.getElementById("btnGA").disabled = true;
-                    document.getElementById("btnDwnGA").disabled = true;
-                    document.getElementById("ga_no_OfGen").disabled = true;
+            document.getElementById("ga_no_OfTime").disabled = true;
+            document.getElementById("btnGA").disabled = true;
+            document.getElementById("ga_no_OfGen").disabled = true;
 
-                    $('#ga_no_OfTime').val("");
-                    $('#ga_no_OfGen').val("");
-                }
+            $('#ga_no_OfTime').val("");
+            $('#ga_no_OfGen').val("");
+        }
 
-                if ($(this).is(':checked') && $(this).val() == 'options_ga') {
-                    document.getElementById("ga_no_OfTime").disabled = false;
-                    document.getElementById("btnGA").disabled = false;
-                    document.getElementById("btnDwnGA").disabled = false;
-                    document.getElementById("ga_no_OfGen").disabled = false;
+        if ($(this).is(':checked') && $(this).val() == 'options_ga') {
+            document.getElementById("ga_no_OfTime").disabled = false;
+            document.getElementById("btnGA").disabled = false;
+            document.getElementById("ga_no_OfGen").disabled = false;
 
-                    document.getElementById("sa_no_OfTime").disabled = true;
-                    document.getElementById("btnSA").disabled = true;
-                    document.getElementById("btnDwnSA").disabled = true;
+            document.getElementById("sa_no_OfTime").disabled = true;
+            document.getElementById("btnSA").disabled = true;
 
-                    $('#sa_no_OfTime').val("");
-                }
-            });
+            $('#sa_no_OfTime').val("");
+        }
+    });
 
     $(":file").filestyle({ buttonName: "btn-info" });
 
