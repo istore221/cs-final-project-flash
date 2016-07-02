@@ -16,7 +16,7 @@ public class CandidateSolution implements Comparable<CandidateSolution>{
      private PreferenceTable preferenceTable;
     private Vector<CandidateAssignment> candidateAssignments;
     private Hashtable<String, Integer> duplicateAssignedProjects;
-    private final int energyPenalty = 1000 ;
+    private final int energyPenalty = 10;
    
   
     public CandidateSolution(){
@@ -292,9 +292,8 @@ public class CandidateSolution implements Comparable<CandidateSolution>{
                     return this.getFitness() > o.getFitness() ? -1 : 1;
     }
 
-   
-   
-
-   
+    public Hashtable<String, Integer> getDuplicateAssignedProjects(){
+      return this.duplicateAssignedProjects;
+    }
     
 }
