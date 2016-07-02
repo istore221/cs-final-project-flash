@@ -25,7 +25,7 @@ public class CsFinalProject {
 //           System.out.println(solution.getEnergy());
            
          
-            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(prefs,20L,5);
+            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(prefs,20L,265);
             CandidateSolution  solution = geneticAlgorithm.populate();
             System.out.println(solution.getFitness());
             

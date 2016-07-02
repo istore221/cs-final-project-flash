@@ -149,6 +149,17 @@ public class GeneticAlgorithm {
            }
            
             newC2.putRepeatedOnHash();
+            
+            /* if goal achieve return it */
+            if(newC1.getFitness() == 0){
+                
+                return newC1;
+            }
+            if(newC2.getFitness() == 0){
+                
+                return newC2;
+            }
+              /* if goal achieve return it */
           
            /* C2 Crossover C1 */
             
