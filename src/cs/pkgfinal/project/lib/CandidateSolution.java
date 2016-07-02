@@ -17,7 +17,7 @@ public class CandidateSolution implements Comparable<CandidateSolution>{
      private PreferenceTable preferenceTable;
     private Vector<CandidateAssignment> candidateAssignments;
     private Hashtable<String, Integer> duplicateAssignedProjects;
-    private final int energyPenalty = 1000 ;
+    private final int energyPenalty = 10 ;
    
   
     public CandidateSolution(){
@@ -231,7 +231,7 @@ public class CandidateSolution implements Comparable<CandidateSolution>{
           for (String key : this.duplicateAssignedProjects.keySet()){
               
               // why -1 because in my hash table occurences(value) = 2 means project X has two occurences on candidateAssignment list (two students share project X) so (2-1) * 1000 = 1000 
-              penalties+= (this.duplicateAssignedProjects.get(key)-1) * 1000;
+              penalties+= (this.duplicateAssignedProjects.get(key)-1) * this.energyPenalty;
               
           }
          
@@ -256,6 +256,7 @@ public class CandidateSolution implements Comparable<CandidateSolution>{
               
           }
           
+        
           
           return energySum+this.getPenalties();
         
