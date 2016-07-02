@@ -29,7 +29,10 @@ try {
     }
     else {
         if(request.getParameter("funcname").indexOf("SA") >= 0){
-            out.println(beanmain.getSimulatedAnnealingSolution(Integer.parseInt(request.getParameter("iterations").trim()), Integer.parseInt(request.getParameter("no_OfProjects").trim())));
+            out.println(beanmain.getSimulatedAnnealingSolution(Long.parseLong(request.getParameter("iterations").trim()), Integer.parseInt(request.getParameter("no_OfProjects").trim())));
+        }
+        else if(request.getParameter("funcname").indexOf("GA") >= 0){
+            out.println(beanmain.getGeneticAlgorithmSolution(Long.parseLong(request.getParameter("ga_no_OfTime").trim()), Long.parseLong(request.getParameter("ga_no_OfGen").trim()), Integer.parseInt(request.getParameter("no_OfProjects").trim())));
         }
     }
 }
