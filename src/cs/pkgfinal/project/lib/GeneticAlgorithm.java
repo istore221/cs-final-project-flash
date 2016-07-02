@@ -160,24 +160,7 @@ public class GeneticAlgorithm {
             
              /* C2 Crossover C1 */
             
-            /* if goal achieve return it */
-            if(c1.getFitness() == 0){
-                
-                return c1;
-            }
-            if(c2.getFitness() == 0){
-                
-                return c2;
-            }
-            if(newC1.getFitness() == 0){
-                
-                return newC1;
-            }
-            if(newC2.getFitness() == 0){
-                
-                return newC2;
-            }
-              /* if goal achieve return it */
+           
           
           
             
