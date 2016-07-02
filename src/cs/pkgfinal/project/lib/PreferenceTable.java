@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.Random;
 import java.util.Stack;
 import java.util.StringTokenizer;
@@ -20,14 +21,14 @@ public class PreferenceTable {
         
   
     private Vector table;
-    private Hashtable<String, StudentEntry> studentLookup;
+    private LinkedHashMap <String, StudentEntry> studentLookup;
   
     
     public PreferenceTable(){
         
         // constructor initialze the hashtables
        this.table = new Vector();
-       this.studentLookup = new Hashtable<String, StudentEntry>();
+       this.studentLookup = new LinkedHashMap <String, StudentEntry>();
        
     }
     
@@ -73,7 +74,7 @@ public class PreferenceTable {
          }
         
         this.table = vector;
-        
+       
        
         /* convert vector to a hash table */
         /* ----------------------Hash table conversion------------------------------ */
@@ -95,6 +96,8 @@ public class PreferenceTable {
                 
                  student.setHasPreassignedProject(false);
             }
+            
+           
             
              Enumeration enProjects = rowTemp.elements();
              int index = 0;
@@ -119,13 +122,15 @@ public class PreferenceTable {
              }
              
               student.setOrderedPreferences(studentProjects);
-              this.studentLookup.put(student.getStudentName(), student);
             
-           
+              this.studentLookup.put(student.getStudentName(), student);
+              
+              
        
              
         }
          
+          
        
                         
     }

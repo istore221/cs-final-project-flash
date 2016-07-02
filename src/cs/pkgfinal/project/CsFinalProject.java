@@ -21,17 +21,15 @@ public class CsFinalProject {
            
             
           PreferenceTable prefs = new PreferenceTable("src/project_allocation_data.tsv");
-//           SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(prefs,10000L);
+//           SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(prefs,1L);
 //           CandidateSolution solution =  simulatedAnnealing.anneal();
-//           System.out.println(solution.getEnergy());
-           
+//           System.out.println(solution.getEnergy()+" "+solution.isValid());
           
          
-            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(prefs,15L,200);
+            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(prefs,20000L,1000);
             CandidateSolution  solution = geneticAlgorithm.populate();
-            System.out.println(solution.getFitness());
+           System.out.println(solution.getFitness()+" "+solution.isValid());
             
-           
             
             
             

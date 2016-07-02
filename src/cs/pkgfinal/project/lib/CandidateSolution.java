@@ -65,7 +65,8 @@ public class CandidateSolution implements Comparable<CandidateSolution>{
           while(en.hasMoreElements()){
               
               StudentEntry student = (StudentEntry) en.nextElement();
-             
+           
+            
             
              CandidateAssignment assignment =  new CandidateAssignment(student);
              
@@ -74,6 +75,8 @@ public class CandidateSolution implements Comparable<CandidateSolution>{
             
             
           }
+         
+         
          
      }
       

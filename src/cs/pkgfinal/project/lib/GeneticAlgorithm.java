@@ -85,7 +85,7 @@ public class GeneticAlgorithm {
            
                      // genarations loop
           
-         Collections.sort(newPopulation); // sort by fitness best fitness to worst fitness
+        Collections.sort(newPopulation); // sort by fitness best fitness to worst fitness
          
          if ((this.newPopulation.size() & 1) != 0) {
                 
@@ -104,13 +104,14 @@ public class GeneticAlgorithm {
       
          for(int i=0;i<this.newPopulation.size() / 2;i++){
              
+            
              int parentA  = end;
              int parentB = end+1;
              
              CandidateSolution c1 =  newPopulation.get(parentA);
              CandidateSolution c2 = newPopulation.get(parentB);
          
-          
+            
              
          /* C1 crossover  C2 */
          CandidateSolution newC1 = new CandidateSolution();
@@ -129,7 +130,9 @@ public class GeneticAlgorithm {
            }
            
             newC1.putRepeatedOnHash();
-          
+            
+             
+           
             /* C1 crossover  C2 */
            
              
@@ -137,20 +140,23 @@ public class GeneticAlgorithm {
          /* C2 Crossover C1 */
          CandidateSolution newC2 = new CandidateSolution();
          
+          for (CandidateAssignment assignment: c2.getCandidateAssignments().subList(0, crossOverPoint)) {
+               
+               newC2.getCandidateAssignments().add(assignment);
+               
+               
+           }
+         
            for (CandidateAssignment assignment: c1.getCandidateAssignments().subList(crossOverPoint, c1.getCandidateAssignments().size())) {
                
                newC2.getCandidateAssignments().add(assignment);
                
                
            }
-            for (CandidateAssignment assignment: c2.getCandidateAssignments().subList(0, crossOverPoint)) {
-               
-               newC2.getCandidateAssignments().add(assignment);
-               
-               
-           }
+           
            
             newC2.putRepeatedOnHash();
+            
             
              /* C2 Crossover C1 */
             
@@ -217,7 +223,7 @@ public class GeneticAlgorithm {
          }
          
          
-      
+       
            
         return this.newPopulation.get(0); // return the best solution with maximum fitness
     }
