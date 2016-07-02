@@ -120,12 +120,12 @@
                 <div class="panel-body">
                     <form>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="ga_no_OfTime" placeholder="Number Of Initial Population">
+                            <input type="text" class="form-control" id="ga_no_OfTime" name="ga_no_OfTime" placeholder="Number Of Initial Population">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="ga_no_OfGen" placeholder="Number Of Genarations">
+                            <input type="text" class="form-control" id="ga_no_OfGen" name="ga_no_OfGen" placeholder="Number Of Genarations">
                         </div>
-                        <button type="button" class="btn btn-primary" style="width: 100%;" id="btnGA">Calculate</button>
+                        <button type="button" class="btn btn-primary" style="width: 100%;" id="btnGA" data-loading-text="Calculating..." autocomplete="off">Calculate</button>
                     </form>
                 </div>
             </div>
@@ -138,7 +138,7 @@
         <center>
             <div class="panel panel-success" style="width: 50%;">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><b><font size="4" color="#08298A" face="Agency FB">Summary - Simulated Annealing</font></b></h3>
+                    <h3 class="panel-title"><b><font size="4" color="#08298A" face="Agency FB">Summary</font></b></h3>
                 </div>
                 <div class="panel-body">
                     <span id="summarydata"></span><br /><br />
@@ -153,7 +153,7 @@
         <div class="col-md-12">
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><b><font size="4" color="#08298A" face="Agency FB">Result - Simulated Annealing</font></b></h3>
+                    <h3 class="panel-title"><b><font size="4" color="#08298A" face="Agency FB">Result</font></b></h3>
                 </div>
                 <div class="panel-body">
                     <table class="table table-hover" id="ResultingTable">
@@ -261,36 +261,32 @@
                 no_OfProjects: $('#no_OfProjects').val()
             },
             success: function (data) {
-                var jsonobj = JSON.parse(data);
-
-                for (var i = 0; i < jsonobj.summary.length; i++){
-                    $('#summarydata').append('<b>' + jsonobj.summary[i].title + ' :</b> ' + jsonobj.summary[i].value + '<hr />');
-                }
-                $('#summarydata').append('<small><b>Projects which are conflicting with another is highlighted in red.</b></small>');
-
-                for (var i = 0; i < jsonobj.tableheaders.length; i++){
-                    $('#ResultingTable thead tr').append('<th>' + jsonobj.tableheaders[i].tableheader + '</th>');
-                }
-
-                for (var i = 0; i < jsonobj.tabledata.length; i++){
-                    var tData = '<tr ' + (jsonobj.tabledata[i].col5 ? 'class="danger"' : '') + '>';
-
-                    tData += '<th scope="row">' + jsonobj.tabledata[i].col1 + '</th>';
-
-                    tData += '<td>' + jsonobj.tabledata[i].col2 + '</td>';
-                    
-                    tData += '<td>';
-                    for (var j = 0; j < jsonobj.tabledata[i].col3.length; j++){
-                        tData += (jsonobj.tabledata[i].col3[j].pref + '<br />');
-                    }
-                    tData += '</td>';
-
-                    tData += '<td>' + jsonobj.tabledata[i].col4 + '</td>';
-                    tData += '</tr>'
-
-                    $('#ResultingTable tbody').append(tData);
-                }
+                populateResultJSon(data);
                 $("#btnSA").button('reset');
+                $('#LoadingGif').hide();
+            }
+        });
+    });
+
+    $("#btnGA").click(function() {
+        $(this).button('loading');
+        $('#LoadingGif').show();
+        $('#summarydata').html('');
+        $('#ResultingTable thead tr').html('');
+        $('#ResultingTable tbody').html('');
+
+        $.ajax({
+            type: "POST",
+            url: "result.jsp",
+            data: {
+                funcname: 'GA',
+                ga_no_OfTime: $('#ga_no_OfTime').val(),
+                ga_no_OfGen: $('#ga_no_OfGen').val(),
+                no_OfProjects: $('#no_OfProjects').val()
+            },
+            success: function (data) {
+                populateResultJSon(data);
+                $("#btnGA").button('reset');
                 $('#LoadingGif').hide();
             }
         });
@@ -376,5 +372,37 @@
             sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
 
         return (sa);
+    }
+
+    function populateResultJSon(data){
+        var jsonobj = JSON.parse(data);
+
+        for (var i = 0; i < jsonobj.summary.length; i++){
+            $('#summarydata').append('<b>' + jsonobj.summary[i].title + ' :</b> ' + jsonobj.summary[i].value + '<hr />');
+        }
+        $('#summarydata').append('<small><b>Projects which are conflicting with another is highlighted in red.</b></small>');
+
+        for (var i = 0; i < jsonobj.tableheaders.length; i++){
+            $('#ResultingTable thead tr').append('<th>' + jsonobj.tableheaders[i].tableheader + '</th>');
+        }
+
+        for (var i = 0; i < jsonobj.tabledata.length; i++){
+            var tData = '<tr ' + (jsonobj.tabledata[i].col5 ? 'class="danger"' : '') + '>';
+
+            tData += '<th scope="row">' + jsonobj.tabledata[i].col1 + '</th>';
+
+            tData += '<td>' + jsonobj.tabledata[i].col2 + '</td>';
+            
+            tData += '<td>';
+            for (var j = 0; j < jsonobj.tabledata[i].col3.length; j++){
+                tData += (jsonobj.tabledata[i].col3[j].pref + '<br />');
+            }
+            tData += '</td>';
+
+            tData += '<td>' + jsonobj.tabledata[i].col4 + '</td>';
+            tData += '</tr>'
+
+            $('#ResultingTable tbody').append(tData);
+        }
     }
 </script>
