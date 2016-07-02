@@ -25,11 +25,11 @@ try {
                 beanmain.setCurrentUserFilePath(nameWithPath);
                 item.write(new File(nameWithPath));
             }
-            else{
-                if(item.getFieldName().indexOf("no_OfProjects") >= 0){
-                    beanmain.setNoOfProjectsToOneStudent(Integer.parseInt(item.getString().trim()));
-                }
-            }
+        }
+    }
+    else {
+        if(request.getParameter("funcname").indexOf("SA") >= 0){
+            out.println(beanmain.getSimulatedAnnealingSolution(Integer.parseInt(request.getParameter("iterations").trim()), Integer.parseInt(request.getParameter("no_OfProjects").trim())));
         }
     }
 }
