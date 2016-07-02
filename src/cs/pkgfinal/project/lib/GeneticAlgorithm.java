@@ -152,7 +152,17 @@ public class GeneticAlgorithm {
            
             newC2.putRepeatedOnHash();
             
+             /* C2 Crossover C1 */
+            
             /* if goal achieve return it */
+            if(c1.getFitness() == 0){
+                
+                return c1;
+            }
+            if(c2.getFitness() == 0){
+                
+                return c2;
+            }
             if(newC1.getFitness() == 0){
                 
                 return newC1;
@@ -163,10 +173,32 @@ public class GeneticAlgorithm {
             }
               /* if goal achieve return it */
           
-           /* C2 Crossover C1 */
+          
             
-            tempNewPopulation.add(c1);
-            tempNewPopulation.add(c2);
+            
+
+            
+            //only replace parent if child is better  (survival of child)
+            if(c1.getFitness() > newC1.getFitness()){
+                
+                 tempNewPopulation.add(c1);
+                 
+            }else{
+                
+                  tempNewPopulation.add(newC1);
+                
+            }
+            if(c2.getFitness() > newC2.getFitness()){
+                
+                 tempNewPopulation.add(c2);
+            }else{
+                
+                  tempNewPopulation.add(newC2);
+            }
+             //only replace parent if child is better (survival of child)
+            
+          
+          
             
                    
              end = (parentB)+1;
