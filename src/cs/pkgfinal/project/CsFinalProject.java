@@ -9,6 +9,7 @@ import cs.pkgfinal.project.lib.SimulatedAnnealing;
 import cs.pkgfinal.project.lib.StudentEntry;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Vector;
 
 
@@ -19,13 +20,14 @@ public class CsFinalProject {
         try {
            
             
-//           PreferenceTable prefs = new PreferenceTable("src/project_allocation_data.tsv");
+           PreferenceTable prefs = new PreferenceTable("src/project_allocation_data.tsv");
 //           SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(prefs,90000L);
 //           CandidateSolution solution =  simulatedAnnealing.anneal();
 //           System.out.println(solution.getEnergy());
            
+          
          
-            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(prefs,80000L,12);
+            GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(prefs,15L,18);
             CandidateSolution  solution = geneticAlgorithm.populate();
             System.out.println(solution.getFitness());
             

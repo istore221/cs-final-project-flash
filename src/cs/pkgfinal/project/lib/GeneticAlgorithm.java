@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 
 /*http://www.theprojectspot.com/tutorial-post/creating-a-genetic-algorithm-for-beginners/3
@@ -78,8 +79,7 @@ public class GeneticAlgorithm {
                
           }
           
-         int crossOverPoint = (newPopulation.get(0).getCandidateAssignments().size() / 2);
-       
+         
           
          for(int g=0;g<this.generations;g++){
            
@@ -94,6 +94,8 @@ public class GeneticAlgorithm {
          }
          
         
+         int crossOverPoint = (newPopulation.get(0).getCandidateAssignments().size() / (new Random().nextInt((newPopulation.get(0).getCandidateAssignments().size() / 2) - 2 + 1) + 2)); // genarate a random crossover point between 2 to size/2
+     
          int end = 0;
          
          
