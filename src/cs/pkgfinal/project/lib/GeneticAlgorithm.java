@@ -83,7 +83,7 @@ public class GeneticAlgorithm {
           
          for(int g=0;g<this.generations;g++){
            
-                     
+                     // genarations loop
           
          Collections.sort(newPopulation); // sort by fitness best fitness to worst fitness
          
@@ -97,7 +97,7 @@ public class GeneticAlgorithm {
          int end = 0;
          
          
-          List<CandidateSolution> tempNewPopulation = new ArrayList<CandidateSolution>();
+          List<CandidateSolution> tempNewPopulation = new ArrayList<CandidateSolution>(); // genaration holder
       
       
          for(int i=0;i<this.newPopulation.size() / 2;i++){
@@ -164,13 +164,17 @@ public class GeneticAlgorithm {
        
          
          this.newPopulation.clear();
-         this.newPopulation = tempNewPopulation;
+         this.newPopulation = tempNewPopulation; // set current genaration to newPopulation
+         
+        
+         
       
          }
          
+         
       
            
-        return this.newPopulation.get(0); // return the best solution with minimum fitness
+        return this.newPopulation.get(0); // return the best solution with maximum fitness
     }
 
   
