@@ -230,7 +230,7 @@ public class CandidateSolution implements Comparable<CandidateSolution>{
           for (String key : this.duplicateAssignedProjects.keySet()){
               
               // why -1 because in my hash table occurences(value) = 2 means project X has two occurences on candidateAssignment list (two students share project X) so (2-1) * 1000 = 1000 
-              penalties+= (this.duplicateAssignedProjects.get(key)-1) * 1000;
+              penalties+= (this.duplicateAssignedProjects.get(key)-1) * this.energyPenalty;
               
           }
          
