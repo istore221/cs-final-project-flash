@@ -1,8 +1,8 @@
-# Project Allocation with **Genetic Algorithm** and **Simulated Annealing**.
+# Project Allocation with Genetic Algorithm and Simulated Annealing.
 
 ## Introduction
 
-Web based Project Allocation program for university students based on  Genetic Algorithm and Simulated Annealing. Algorithms.
+Web based Project Allocation program for university students based on **Genetic Algorithm** and **Simulated Annealing**. Algorithms.
 
 
 ## Technologies Used
