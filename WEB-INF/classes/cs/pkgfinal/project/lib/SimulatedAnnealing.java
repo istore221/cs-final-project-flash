@@ -84,9 +84,7 @@ public class SimulatedAnnealing {
 
               CandidateSolution candidateSolution =   new CandidateSolution(this.preferenceTable, noOfPrefs);
               
-              if(candidateSolution.getEnergy() == 0){
-                  return candidateSolution; // goal found
-              }
+             
               
               if( candidateSolution.getEnergy() < currentSolution.getEnergy()){
 
