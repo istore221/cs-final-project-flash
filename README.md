@@ -33,13 +33,14 @@ Web based Project Allocation program for university students based on **Genetic 
 - bootstrap-filestyle.min.js
  
 ```
-All libraries are packed within the project user is not required to have it on local environment .
+No dependencies on user environment .
 ```
 
 ## Suorce Control
 Git
 
 ## Installation
+
 1. Unzip the attached project folder or download the repositary as a ZIP from  https://github.com/istore221/cs-final-project-flash/tree/integrate 
 
 2. Install Apache Tomcat server and don't forget to start the server before deployment.
