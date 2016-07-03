@@ -40,8 +40,7 @@ Git
 2. Create a folder in your tomcat `webapps` folder and copy the content of the zip file into your folder .
 
 ## Run
-Enter the local URL of the project. There're two .jsp pages included namely index.jsp and result.jsp, you should use the index.jsp and the
-result.jsp is used to receive ajax requests to do certain jobs.
+Enter the local URL of the project. There're two .jsp pages included namely index.jsp and result.jsp, you should use the index.jsp, and the result.jsp is used to receive ajax requests to do certain jobs.
 - First you need to upload a .tsv (Tab Separated Value) file.
 - Click on the `Choose File` button and select your .tsv file (this repositary already have an example file in the Data folder).
 - Upload the selected file by specifying the number of preferrences a student must have.
