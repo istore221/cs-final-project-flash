@@ -6,7 +6,6 @@ Web based Project Allocation program for university students based on  **Genetic
 
 
 ## Technologies Used
-- Windows 10
 - Java JDK 8
 - Apache Tomcat 7.0.56
 
