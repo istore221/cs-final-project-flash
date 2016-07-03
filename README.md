@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Web based Project Allocation program for university students based on **Genetic Algorithm** and **Simulated Annealing**. Algorithms.
+Project Allocation program for university students based on **Genetic Algorithm** and **Simulated Annealing**. Algorithms.
 
 
 ## Technologies Used
