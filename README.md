@@ -36,8 +36,6 @@ Project Allocation program for university students based on **Genetic Algorithm*
 No dependencies on user environment .
 ```
 
-## Suorce Control
-Git
 
 ## Installation
 
