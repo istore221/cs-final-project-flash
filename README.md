@@ -1,4 +1,4 @@
-# Project Allocation to Students
+# Project Allocation program based on  **Genetic Algorithm** and **Simulated Annealing**.
 
 ## Introduction
 
