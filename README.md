@@ -1,4 +1,4 @@
-# Project Allocation program based on  **Genetic Algorithm** and **Simulated Annealing**.
+# Project Allocation with **Genetic Algorithm** and **Simulated Annealing**.
 
 ## Introduction
 
