@@ -135,10 +135,10 @@
     <hr />
 
     <div class="row">
-        <center>
-            <div class="panel panel-success" style="width: 50%;">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><b><font size="4" color="#08298A" face="Agency FB">Summary</font></b></h3>
+                    <h3 class="panel-title"><b><font size="4" color="#08298A" face="Agency FB">Summary - <span class='algoname'></span></font></b></h3>
                 </div>
                 <div class="panel-body">
                     <span id="summarydata"></span><br /><br />
@@ -146,14 +146,14 @@
                 </div>
                 <iframe id="txtArea1" style="display:none"></iframe>
             </div>
-        </center>
+        </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><b><font size="4" color="#08298A" face="Agency FB">Result</font></b></h3>
+                    <h3 class="panel-title"><b><font size="4" color="#08298A" face="Agency FB">Result - <span class='algoname'></span></font></b></h3>
                 </div>
                 <div class="panel-body">
                     <table class="table table-hover" id="ResultingTable">
@@ -246,6 +246,18 @@
     });
 
     $("#btnSA").click(function() {
+        if($('#no_OfProjects').val().trim() == ''){
+            alert('Enter number of Preferences for a Student');
+            $('#no_OfProjects').focus();
+            return;
+        }
+
+        if($('#sa_no_OfTime').val().trim() == ''){
+            alert('Enter number of times algorithm should run');
+            $('#sa_no_OfTime').focus();
+            return;
+        }
+
         $(this).button('loading');
         $('#LoadingGif').show();
         $('#summarydata').html('');
@@ -269,6 +281,24 @@
     });
 
     $("#btnGA").click(function() {
+        if($('#no_OfProjects').val().trim() == ''){
+            alert('Enter number of Preferences for a Student');
+            $('#no_OfProjects').focus();
+            return;
+        }
+
+        if($('#ga_no_OfTime').val().trim() == ''){
+            alert('Enter number of initial population');
+            $('#ga_no_OfTime').focus();
+            return;
+        }
+
+        if($('#ga_no_OfGen').val().trim() == ''){
+            alert('Enter number of generations');
+            $('#ga_no_OfGen').focus();
+            return;
+        }
+
         $(this).button('loading');
         $('#LoadingGif').show();
         $('#summarydata').html('');
@@ -339,6 +369,11 @@
 
             $('#sa_no_OfTime').val("");
         }
+        $('#summarydata').html('');
+        $('#ResultingTable thead tr').html('');
+        $('#ResultingTable tbody').html('');
+        
+        $('.algoname').text($(this).parent().find('b').text());
     });
 
     $(":file").filestyle({ buttonName: "btn-info" });
@@ -378,19 +413,42 @@
         var jsonobj = JSON.parse(data);
 
         for (var i = 0; i < jsonobj.summary.length; i++){
-            $('#summarydata').append('<b>' + jsonobj.summary[i].title + ' :</b> ' + jsonobj.summary[i].value + '<hr />');
+            if(!$.isArray(jsonobj.summary[i].value)){
+                $('#summarydata').append('<b>' + jsonobj.summary[i].title + ' :</b> ' + jsonobj.summary[i].value + '<hr />');
+            }
+            else if(i == 4){
+                if(jsonobj.summary[i].value.length != 0)
+                    $('#summarydata').append('<b>' + jsonobj.summary[i].title + ' :</b> <br /><br />');
+
+                var confliPrjs = '<table class="table">' +
+                        '<thead>' +
+                            '<tr>' +
+                                '<th>Project Name</th>' +
+                                '<th>No. of conflicts</th>' +
+                            '</tr>' +
+                        '</thead>' +
+                        '<tbody>';
+                for (var j = 0; j < jsonobj.summary[i].value.length; j++){
+                    var projectName = jsonobj.summary[i].value[j].confl.substring(0, jsonobj.summary[i].value[j].confl.lastIndexOf('-')).trim();
+                    var noOfConflicts = parseInt(jsonobj.summary[i].value[j].confl.substring(jsonobj.summary[i].value[j].confl.lastIndexOf('-') + 1, jsonobj.summary[i].value[j].confl.length).trim()) - 1;
+                    confliPrjs += '<tr><td>' +projectName+ '</td><td>' +noOfConflicts+ '</td></tr>';
+                }
+                confliPrjs += '</tbody></table>';
+
+                if(jsonobj.summary[i].value.length != 0)
+                    $('#summarydata').append(confliPrjs + '<hr />');
+            }
         }
+
         $('#summarydata').append('<small><b>Projects which are conflicting with another is highlighted in red.</b></small>');
 
         for (var i = 0; i < jsonobj.tableheaders.length; i++){
             $('#ResultingTable thead tr').append('<th>' + jsonobj.tableheaders[i].tableheader + '</th>');
         }
-
+        
         for (var i = 0; i < jsonobj.tabledata.length; i++){
             var tData = '<tr ' + (jsonobj.tabledata[i].col5 ? 'class="danger"' : '') + '>';
-
             tData += '<th scope="row">' + jsonobj.tabledata[i].col1 + '</th>';
-
             tData += '<td>' + jsonobj.tabledata[i].col2 + '</td>';
             
             tData += '<td>';
@@ -400,7 +458,10 @@
             tData += '</td>';
 
             tData += '<td>' + jsonobj.tabledata[i].col4 + '</td>';
-            tData += '</tr>'
+            
+            tData += '<td>' + jsonobj.tabledata[i].col6 + '</td>';
+            
+            tData += '</tr>';
 
             $('#ResultingTable tbody').append(tData);
         }
