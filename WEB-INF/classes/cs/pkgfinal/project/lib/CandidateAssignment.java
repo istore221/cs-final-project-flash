@@ -83,7 +83,9 @@ public class CandidateAssignment {
     }
   
    
-
+    public int getDisappointment(){
+        return student.getOrderedPreferences().indexOf(this.project);
+    }
    
    
 
