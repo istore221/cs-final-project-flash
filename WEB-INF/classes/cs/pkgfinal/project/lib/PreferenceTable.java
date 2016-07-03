@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.Random;
 import java.util.Stack;
 import java.util.StringTokenizer;
@@ -20,14 +21,14 @@ public class PreferenceTable {
         
   
     private Vector table;
-    private Hashtable<String, StudentEntry> studentLookup;
+    private LinkedHashMap <String, StudentEntry> studentLookup;
   
     
     public PreferenceTable(){
         
         // constructor initialze the hashtables
        this.table = new Vector();
-       this.studentLookup = new Hashtable<String, StudentEntry>();
+       this.studentLookup = new LinkedHashMap <String, StudentEntry>();
        
     }
     
