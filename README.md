@@ -38,8 +38,8 @@ No dependencies on user environment.
 ```
 
 ## Prerequisites
--Java 7 or greater
--Apache tomcat 7 or greater
+- Java 7 or greater
+- Apache tomcat 7 or greater
 
 
 ## Installation
